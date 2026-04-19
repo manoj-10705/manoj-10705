@@ -27,11 +27,11 @@
 ## 📊 GitHub Stats
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api?username=manoj-10705&show_icons=true&theme=github_dark&hide_border=true" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api?username=manoj-10705&show_icons=true&theme=github_dark&hide_border=true" type="image/svg+xml" />
     <img height="170" src="https://github-readme-stats.vercel.app/api?username=manoj-10705&show_icons=true&theme=default&hide_border=true" alt="GitHub Stats" />
   </picture>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=manoj-10705&layout=compact&theme=github_dark&hide_border=true" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=manoj-10705&layout=compact&theme=github_dark&hide_border=true" type="image/svg+xml" />
     <img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=manoj-10705&layout=compact&theme=default&hide_border=true" alt="Top Languages" />
   </picture>
 </p>
