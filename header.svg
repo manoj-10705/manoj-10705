@@ -1,134 +1,242 @@
 <svg viewBox="0 0 1200 300" width="1200" height="300" xmlns="http://www.w3.org/2000/svg">
   <foreignObject width="100%" height="100%">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="height:300px;width:100%;position:relative;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:radial-gradient(ellipse at 75% 120%,#0a1628 0%,#060d18 30%,#030508 70%);">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="height:300px;width:100%;position:relative;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:radial-gradient(ellipse at 78% 130%,#0a1a35 0%,#060d1a 35%,#020408 75%);">
 
       <style>
-        /* === NETWORK NODES BACKGROUND === */
-        .node{position:absolute;border-radius:50%;z-index:1}
-        .n1{background:rgba(88,166,255,0.15);box-shadow:0 0 6px rgba(88,166,255,0.1)}
-        .n2{background:rgba(31,111,235,0.1);box-shadow:0 0 4px rgba(31,111,235,0.08)}
-        .n3{background:rgba(140,180,255,0.08)}
-        .nline{position:absolute;height:1px;transform-origin:left center;z-index:0}
-        .nl1{background:linear-gradient(90deg,rgba(88,166,255,0.12),rgba(88,166,255,0.03))}
-        .nl2{background:linear-gradient(90deg,rgba(31,111,235,0.08),transparent)}
+        /* ===== NETWORK GRAPH ===== */
+        .nd{position:absolute;border-radius:50%;z-index:2}
+        .nd-core{background:rgba(88,166,255,0.7);box-shadow:0 0 10px 3px rgba(88,166,255,0.3),0 0 25px 5px rgba(88,166,255,0.08)}
+        .nd-mid{background:rgba(88,166,255,0.45);box-shadow:0 0 7px 2px rgba(88,166,255,0.2),0 0 18px 3px rgba(88,166,255,0.06)}
+        .nd-edge{background:rgba(88,166,255,0.25);box-shadow:0 0 5px 1px rgba(88,166,255,0.12)}
+        .nd-warm{background:rgba(240,136,62,0.4);box-shadow:0 0 8px 2px rgba(240,136,62,0.2),0 0 20px 3px rgba(240,136,62,0.06)}
+        .nd-green{background:rgba(126,231,135,0.35);box-shadow:0 0 7px 2px rgba(126,231,135,0.15),0 0 18px 3px rgba(126,231,135,0.05)}
+        @keyframes np{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.6)}}
+        @keyframes np2{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.8;transform:scale(1.4)}}
 
-        @keyframes npulse{0%,100%{opacity:0.4;transform:scale(1)}50%{opacity:1;transform:scale(1.5)}}
-        @keyframes flow{0%{background-position:0% 0%}100%{background-position:200% 0%}}
+        /* Connection lines */
+        .cn{position:absolute;height:1px;transform-origin:left center;z-index:1}
+        .cn-bright{background:linear-gradient(90deg,rgba(88,166,255,0.3),rgba(88,166,255,0.08))}
+        .cn-mid{background:linear-gradient(90deg,rgba(88,166,255,0.18),rgba(88,166,255,0.04))}
+        .cn-dim{background:linear-gradient(90deg,rgba(88,166,255,0.1),rgba(88,166,255,0.02))}
+        .cn-warm{background:linear-gradient(90deg,rgba(240,136,62,0.15),rgba(240,136,62,0.03))}
+        .cn-green{background:linear-gradient(90deg,rgba(126,231,135,0.12),rgba(126,231,135,0.03))}
 
-        /* === EARTH === */
-        .earth-container{position:absolute;right:-60px;bottom:-180px;width:420px;height:420px;z-index:2}
-        .earth{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1a4a7a 0%,#0d2847 25%,#0a1f3d 45%,#061428 65%,#030a15 100%);box-shadow:inset -20px -10px 60px rgba(0,0,0,0.8),inset 5px 5px 30px rgba(88,166,255,0.08);position:relative;overflow:hidden}
-        .earth-land1{position:absolute;width:80px;height:45px;background:rgba(34,120,80,0.15);border-radius:50% 60% 40% 50%;top:28%;left:25%;filter:blur(3px)}
-        .earth-land2{position:absolute;width:60px;height:35px;background:rgba(34,120,80,0.12);border-radius:40% 50% 60% 45%;top:42%;left:38%;filter:blur(3px)}
-        .earth-land3{position:absolute;width:40px;height:25px;background:rgba(34,120,80,0.1);border-radius:50%;top:55%;left:22%;filter:blur(2px)}
-        .earth-cloud1{position:absolute;width:120px;height:15px;background:rgba(255,255,255,0.06);border-radius:50%;top:30%;left:15%;filter:blur(4px)}
-        .earth-cloud2{position:absolute;width:80px;height:10px;background:rgba(255,255,255,0.05);border-radius:50%;top:50%;left:35%;filter:blur(3px)}
+        /* Data flow particles along lines */
+        .dp{position:absolute;width:3px;height:3px;border-radius:50%;z-index:2}
+        @keyframes flow-r{0%{left:0%;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:100%;opacity:0}}
+        @keyframes flow-l{0%{right:0%;opacity:0}10%{opacity:1}90%{opacity:1}100%{right:100%;opacity:0}}
+        .dp-blue{background:#58a6ff;box-shadow:0 0 4px 1px rgba(88,166,255,0.6)}
+        .dp-orange{background:#f0883e;box-shadow:0 0 4px 1px rgba(240,136,62,0.6)}
+        .dp-green{background:#7ee787;box-shadow:0 0 4px 1px rgba(126,231,135,0.5)}
 
-        /* atmosphere glow */
-        .atmosphere{position:absolute;top:-8px;left:-8px;right:-8px;bottom:-8px;border-radius:50%;background:transparent;box-shadow:0 0 40px 8px rgba(88,166,255,0.08),0 0 80px 15px rgba(31,111,235,0.04);z-index:1}
-        @keyframes atmglow{0%,100%{box-shadow:0 0 40px 8px rgba(88,166,255,0.08),0 0 80px 15px rgba(31,111,235,0.04)}50%{box-shadow:0 0 50px 10px rgba(88,166,255,0.12),0 0 100px 20px rgba(31,111,235,0.06)}}
+        /* ===== EARTH ===== */
+        .earth-wrap{position:absolute;right:-50px;bottom:-170px;width:400px;height:400px;z-index:3}
+        .earth{width:100%;height:100%;border-radius:50%;position:relative;overflow:hidden;
+          background:radial-gradient(circle at 38% 38%,#1e5a8a 0%,#12405f 15%,#0d2e4a 30%,#081d35 50%,#04101f 70%,#020810 100%);
+          box-shadow:inset -25px -15px 50px rgba(0,0,0,0.85),inset 8px 8px 35px rgba(88,166,255,0.06)}
 
-        /* === SATELLITE ORBITS === */
-        .orbit-path{position:absolute;border:1px solid rgba(88,166,255,0.1);border-radius:50%;z-index:3}
-        .orbit-path-dash{border-style:dashed;border-color:rgba(88,166,255,0.07)}
+        /* Continents - more visible */
+        .land{position:absolute;border-radius:50% 60% 40% 55%;filter:blur(2px)}
+        .l1{width:85px;height:50px;background:rgba(34,130,76,0.22);top:25%;left:22%;transform:rotate(-10deg)}
+        .l2{width:65px;height:40px;background:rgba(34,130,76,0.18);top:38%;left:36%;transform:rotate(5deg);border-radius:45% 55% 50% 40%}
+        .l3{width:45px;height:28px;background:rgba(34,130,76,0.15);top:52%;left:20%;transform:rotate(-5deg)}
+        .l4{width:55px;height:30px;background:rgba(45,140,85,0.2);top:32%;left:48%;transform:rotate(8deg);border-radius:40% 60% 55% 45%}
+        .l5{width:35px;height:22px;background:rgba(34,120,70,0.14);top:18%;left:35%;transform:rotate(-8deg)}
 
-        /* orbit 1: tight low orbit */
-        .orb-1{width:480px;height:480px;right:-90px;bottom:-238px;transform:rotate(-15deg)}
-        /* orbit 2: medium orbit */
-        .orb-2{width:560px;height:560px;right:-130px;bottom:-280px;transform:rotate(10deg)}
-        /* orbit 3: wide scanning orbit */
-        .orb-3{width:660px;height:660px;right:-180px;bottom:-330px;transform:rotate(-5deg)}
+        /* City lights on dark side */
+        .city{position:absolute;border-radius:50%;background:rgba(255,200,80,0.5);filter:blur(1px)}
+        .c1{width:3px;height:3px;top:35%;left:55%;box-shadow:0 0 4px rgba(255,200,80,0.4)}
+        .c2{width:2px;height:2px;top:40%;left:60%;box-shadow:0 0 3px rgba(255,200,80,0.3)}
+        .c3{width:4px;height:3px;top:45%;left:52%;box-shadow:0 0 5px rgba(255,200,80,0.35)}
+        .c4{width:2px;height:2px;top:30%;left:58%;box-shadow:0 0 3px rgba(255,180,60,0.3)}
+        .c5{width:3px;height:2px;top:50%;left:57%;box-shadow:0 0 4px rgba(255,200,80,0.25)}
+        .c6{width:2px;height:2px;top:38%;left:65%;box-shadow:0 0 3px rgba(255,180,60,0.2)}
+        .c7{width:3px;height:3px;top:42%;left:48%;box-shadow:0 0 4px rgba(255,200,80,0.3)}
+        .c8{width:2px;height:2px;top:48%;left:62%;box-shadow:0 0 3px rgba(255,180,60,0.2)}
 
-        /* satellites */
-        .sat{position:absolute;border-radius:50%;z-index:4}
-        @keyframes sat1{0%{transform:rotate(0deg) translateX(240px) rotate(0deg)}100%{transform:rotate(360deg) translateX(240px) rotate(-360deg)}}
-        @keyframes sat2{0%{transform:rotate(0deg) translateX(280px) rotate(0deg)}100%{transform:rotate(360deg) translateX(280px) rotate(-360deg)}}
-        @keyframes sat3{0%{transform:rotate(0deg) translateX(330px) rotate(0deg)}100%{transform:rotate(360deg) translateX(330px) rotate(-360deg)}}
+        /* Cloud layers */
+        .cld{position:absolute;border-radius:50%;filter:blur(4px)}
+        .cl1{width:130px;height:18px;background:rgba(255,255,255,0.08);top:28%;left:12%;transform:rotate(-3deg)}
+        .cl2{width:90px;height:14px;background:rgba(255,255,255,0.06);top:48%;left:30%;transform:rotate(2deg)}
+        .cl3{width:60px;height:10px;background:rgba(255,255,255,0.05);top:36%;left:45%;transform:rotate(-5deg)}
+        .cl4{width:100px;height:12px;background:rgba(255,255,255,0.04);top:58%;left:18%;transform:rotate(4deg)}
 
-        .sat1{width:4px;height:4px;background:#58a6ff;box-shadow:0 0 8px 2px rgba(88,166,255,0.6),0 0 20px 4px rgba(88,166,255,0.2);position:absolute;top:50%;left:50%;margin:-2px;animation:sat1 18s linear infinite;z-index:5}
-        .sat2{width:3px;height:3px;background:#7ee787;box-shadow:0 0 6px 2px rgba(126,231,135,0.5),0 0 16px 3px rgba(126,231,135,0.15);position:absolute;top:50%;left:50%;margin:-1.5px;animation:sat2 28s linear infinite reverse;z-index:5}
-        .sat3{width:3px;height:3px;background:#f0883e;box-shadow:0 0 6px 2px rgba(240,136,62,0.4),0 0 14px 3px rgba(240,136,62,0.12);position:absolute;top:50%;left:50%;margin:-1.5px;animation:sat3 40s linear infinite;z-index:5}
+        /* Terminator line gradient (day-night boundary) */
+        .terminator{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:50%;
+          background:linear-gradient(115deg,transparent 40%,rgba(0,0,0,0.3) 50%,rgba(0,0,0,0.7) 60%,rgba(0,0,0,0.85) 75%)}
 
-        /* scanning beam from sat1 */
-        @keyframes scan{0%,100%{opacity:0}20%,80%{opacity:1}}
+        /* Atmosphere */
+        .atm{position:absolute;top:-10px;left:-10px;right:-10px;bottom:-10px;border-radius:50%;z-index:1;
+          box-shadow:0 0 50px 12px rgba(88,166,255,0.1),0 0 100px 25px rgba(31,111,235,0.05),inset 0 0 30px 5px rgba(88,166,255,0.03)}
+        @keyframes ag{0%,100%{box-shadow:0 0 50px 12px rgba(88,166,255,0.1),0 0 100px 25px rgba(31,111,235,0.05),inset 0 0 30px 5px rgba(88,166,255,0.03)}50%{box-shadow:0 0 60px 15px rgba(88,166,255,0.14),0 0 120px 30px rgba(31,111,235,0.07),inset 0 0 35px 8px rgba(88,166,255,0.05)}}
+        /* Thin bright limb */
+        .limb{position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:50%;z-index:2;
+          box-shadow:inset 3px 2px 8px rgba(120,190,255,0.12)}
 
-        /* === STARS === */
-        .s{position:absolute;border-radius:50%;z-index:1}
-        @keyframes tw{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.9;transform:scale(1.3)}}
-        @keyframes tw2{0%,100%{opacity:.08;transform:scale(.6)}50%{opacity:.6;transform:scale(1)}}
+        /* ===== SATELLITE ORBITS ===== */
+        .orb{position:absolute;border-radius:50%;z-index:4}
+        .orb-solid{border:1px solid rgba(88,166,255,0.15)}
+        .orb-dash{border:1px dashed rgba(88,166,255,0.1)}
+        .orb-dot{border:1px dotted rgba(126,231,135,0.08)}
+        .o1{width:460px;height:460px;right:-78px;bottom:-228px;transform:rotate(-18deg)}
+        .o2{width:540px;height:540px;right:-120px;bottom:-270px;transform:rotate(12deg)}
+        .o3{width:640px;height:640px;right:-168px;bottom:-318px;transform:rotate(-6deg)}
 
-        /* === TEXT === */
+        .sat{border-radius:50%;position:absolute;top:50%;left:50%;z-index:5}
+        @keyframes s1{0%{transform:rotate(0deg) translateX(230px) rotate(0deg)}100%{transform:rotate(360deg) translateX(230px) rotate(-360deg)}}
+        @keyframes s2{0%{transform:rotate(0deg) translateX(270px) rotate(0deg)}100%{transform:rotate(360deg) translateX(270px) rotate(-360deg)}}
+        @keyframes s3{0%{transform:rotate(0deg) translateX(320px) rotate(0deg)}100%{transform:rotate(360deg) translateX(320px) rotate(-360deg)}}
+        .st1{width:5px;height:5px;background:#58a6ff;margin:-2.5px;animation:s1 16s linear infinite;
+          box-shadow:0 0 10px 3px rgba(88,166,255,0.6),0 0 25px 6px rgba(88,166,255,0.2)}
+        .st2{width:4px;height:4px;background:#7ee787;margin:-2px;animation:s2 26s linear infinite reverse;
+          box-shadow:0 0 8px 2px rgba(126,231,135,0.5),0 0 20px 5px rgba(126,231,135,0.15)}
+        .st3{width:4px;height:4px;background:#f0883e;margin:-2px;animation:s3 38s linear infinite;
+          box-shadow:0 0 8px 2px rgba(240,136,62,0.4),0 0 18px 4px rgba(240,136,62,0.12)}
+
+        /* ===== STARS ===== */
+        .star{position:absolute;border-radius:50%;z-index:1}
+        @keyframes tw{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.4)}}
+        @keyframes tw2{0%,100%{opacity:.1;transform:scale(.7)}50%{opacity:.6;transform:scale(1.1)}}
+
+        /* ===== COORDINATE GRID (subtle) ===== */
+        .grid-h{position:absolute;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(88,166,255,0.03) 20%,rgba(88,166,255,0.03) 80%,transparent);z-index:0}
+        .grid-v{position:absolute;height:100%;width:1px;background:linear-gradient(180deg,transparent,rgba(88,166,255,0.03) 20%,rgba(88,166,255,0.03) 80%,transparent);z-index:0}
+
+        /* ===== TEXT ===== */
         .info{position:absolute;z-index:10;top:50%;left:70px;transform:translateY(-50%)}
-        .nm{color:#e6edf3;font-size:38px;font-weight:700;letter-spacing:-0.5px;margin:0;line-height:1.2;text-shadow:0 2px 20px rgba(0,0,0,0.9)}
-        .sub{color:#8b949e;font-size:14px;font-weight:400;margin:8px 0 0 0;letter-spacing:0.5px;text-shadow:0 1px 8px rgba(0,0,0,0.9)}
+        .nm{color:#e6edf3;font-size:38px;font-weight:700;letter-spacing:-0.5px;margin:0;line-height:1.2;text-shadow:0 2px 25px rgba(0,0,0,0.95),0 0 40px rgba(0,0,0,0.5)}
+        .sub{color:#c9d1d9;font-size:14px;font-weight:400;margin:8px 0 0 0;letter-spacing:0.5px;text-shadow:0 1px 12px rgba(0,0,0,0.95)}
         .acc{color:#58a6ff}
-        .tags{margin-top:16px;display:flex;gap:8px}
-        .tag{padding:3px 10px;border:1px solid rgba(88,166,255,0.25);border-radius:16px;color:#58a6ff;font-size:10px;letter-spacing:1px;text-transform:uppercase;background:rgba(88,166,255,0.06)}
-        .tag-g{border-color:rgba(126,231,135,0.25);color:#7ee787;background:rgba(126,231,135,0.06)}
+        .tags{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+        .tag{padding:3px 10px;border:1px solid rgba(88,166,255,0.3);border-radius:16px;color:#58a6ff;font-size:10px;letter-spacing:1px;text-transform:uppercase;background:rgba(88,166,255,0.08);backdrop-filter:blur(4px)}
+        .tag-g{border-color:rgba(126,231,135,0.3);color:#7ee787;background:rgba(126,231,135,0.08)}
       </style>
 
-      <!-- Network nodes background -->
-      <div class="node n1" style="top:15%;left:8%;width:4px;height:4px;animation:npulse 4s 0s infinite"></div>
-      <div class="node n2" style="top:40%;left:3%;width:3px;height:3px;animation:npulse 5s 1s infinite"></div>
-      <div class="node n1" style="top:75%;left:12%;width:3px;height:3px;animation:npulse 4.5s 2s infinite"></div>
-      <div class="node n2" style="top:25%;left:22%;width:4px;height:4px;animation:npulse 5s 0.5s infinite"></div>
-      <div class="node n3" style="top:60%;left:18%;width:3px;height:3px;animation:npulse 6s 1.5s infinite"></div>
-      <div class="node n1" style="top:85%;left:28%;width:3px;height:3px;animation:npulse 4s 2.5s infinite"></div>
-      <div class="node n2" style="top:10%;left:38%;width:4px;height:4px;animation:npulse 5.5s 0.8s infinite"></div>
-      <div class="node n3" style="top:50%;left:42%;width:3px;height:3px;animation:npulse 4s 1.8s infinite"></div>
-      <div class="node n1" style="top:30%;left:48%;width:3px;height:3px;animation:npulse 5s 3s infinite"></div>
-      <div class="node n2" style="top:70%;left:35%;width:4px;height:4px;animation:npulse 4.5s 0.3s infinite"></div>
-      <div class="node n3" style="top:20%;left:55%;width:3px;height:3px;animation:npulse 6s 2.2s infinite"></div>
-      <div class="node n1" style="top:90%;left:50%;width:3px;height:3px;animation:npulse 5s 1.2s infinite"></div>
+      <!-- Subtle coordinate grid -->
+      <div class="grid-h" style="top:25%"></div>
+      <div class="grid-h" style="top:50%"></div>
+      <div class="grid-h" style="top:75%"></div>
+      <div class="grid-v" style="left:20%"></div>
+      <div class="grid-v" style="left:40%"></div>
+      <div class="grid-v" style="left:60%"></div>
+      <div class="grid-v" style="left:80%"></div>
 
-      <!-- Network connection lines -->
-      <div class="nline nl1" style="top:16%;left:8.5%;width:170px;transform:rotate(12deg)"></div>
-      <div class="nline nl2" style="top:41%;left:3.5%;width:120px;transform:rotate(-25deg)"></div>
-      <div class="nline nl1" style="top:26%;left:22.5%;width:200px;transform:rotate(8deg)"></div>
-      <div class="nline nl2" style="top:61%;left:18.5%;width:130px;transform:rotate(20deg)"></div>
-      <div class="nline nl1" style="top:75%;left:13%;width:180px;transform:rotate(-15deg)"></div>
-      <div class="nline nl2" style="top:11%;left:38.5%;width:100px;transform:rotate(35deg)"></div>
-      <div class="nline nl1" style="top:50%;left:42.5%;width:110px;transform:rotate(-10deg)"></div>
-      <div class="nline nl2" style="top:30%;left:48.5%;width:90px;transform:rotate(18deg)"></div>
+      <!-- ===== NETWORK GRAPH ===== -->
+      <!-- Core nodes (brightest) -->
+      <div class="nd nd-core" style="top:20%;left:8%;width:6px;height:6px;animation:np 3.5s 0s infinite"></div>
+      <div class="nd nd-core" style="top:65%;left:22%;width:5px;height:5px;animation:np 4s 1.5s infinite"></div>
+      <div class="nd nd-core" style="top:35%;left:40%;width:6px;height:6px;animation:np 3s 0.8s infinite"></div>
+      <div class="nd nd-core" style="top:80%;left:45%;width:5px;height:5px;animation:np 4.5s 2s infinite"></div>
+      <div class="nd nd-warm" style="top:15%;left:32%;width:5px;height:5px;animation:np 4s 1s infinite"></div>
 
-      <!-- Twinkling stars -->
-      <div class="s" style="top:8%;left:2%;width:1.5px;height:1.5px;background:#fff;animation:tw 3.5s 0s infinite"></div>
-      <div class="s" style="top:35%;left:30%;width:1px;height:1px;background:#fff;animation:tw2 4s 1.5s infinite"></div>
-      <div class="s" style="top:5%;left:52%;width:2px;height:2px;background:rgba(140,180,255,0.8);animation:tw 5s 0.7s infinite"></div>
-      <div class="s" style="top:45%;left:58%;width:1.5px;height:1.5px;background:#fff;animation:tw 3s 2s infinite"></div>
-      <div class="s" style="top:15%;left:65%;width:1px;height:1px;background:#fff;animation:tw2 4.5s 1s infinite"></div>
-      <div class="s" style="top:80%;left:60%;width:1.5px;height:1.5px;background:rgba(255,200,140,0.7);animation:tw 5.5s 2.5s infinite"></div>
+      <!-- Mid nodes -->
+      <div class="nd nd-mid" style="top:50%;left:5%;width:4px;height:4px;animation:np2 5s 0.5s infinite"></div>
+      <div class="nd nd-mid" style="top:85%;left:12%;width:4px;height:4px;animation:np2 4s 2.5s infinite"></div>
+      <div class="nd nd-mid" style="top:10%;left:20%;width:4px;height:4px;animation:np2 4.5s 1.2s infinite"></div>
+      <div class="nd nd-mid" style="top:42%;left:28%;width:4px;height:4px;animation:np2 5s 0.3s infinite"></div>
+      <div class="nd nd-mid" style="top:70%;left:36%;width:4px;height:4px;animation:np2 3.5s 1.8s infinite"></div>
+      <div class="nd nd-green" style="top:55%;left:50%;width:4px;height:4px;animation:np2 4s 0.7s infinite"></div>
+      <div class="nd nd-mid" style="top:25%;left:52%;width:4px;height:4px;animation:np2 5s 2.2s infinite"></div>
 
-      <!-- Earth -->
-      <div class="earth-container">
-        <div class="atmosphere" style="animation:atmglow 6s ease-in-out infinite"></div>
+      <!-- Edge nodes (faintest) -->
+      <div class="nd nd-edge" style="top:30%;left:15%;width:3px;height:3px;animation:np2 6s 1s infinite"></div>
+      <div class="nd nd-edge" style="top:75%;left:30%;width:3px;height:3px;animation:np2 5.5s 0.2s infinite"></div>
+      <div class="nd nd-edge" style="top:90%;left:38%;width:3px;height:3px;animation:np2 6s 2.8s infinite"></div>
+      <div class="nd nd-edge" style="top:5%;left:45%;width:3px;height:3px;animation:np2 5s 1.5s infinite"></div>
+      <div class="nd nd-edge" style="top:60%;left:55%;width:3px;height:3px;animation:np2 4.5s 3s infinite"></div>
+      <div class="nd nd-edge" style="top:45%;left:18%;width:3px;height:3px;animation:np2 5.5s 0.9s infinite"></div>
+
+      <!-- Connection lines (bright) -->
+      <div class="cn cn-bright" style="top:21%;left:9%;width:160px;transform:rotate(22deg);height:1.5px"></div>
+      <div class="cn cn-bright" style="top:22%;left:9%;width:280px;transform:rotate(6deg);height:1.5px"></div>
+      <div class="cn cn-bright" style="top:65%;left:23%;width:180px;transform:rotate(-18deg);height:1.5px"></div>
+      <div class="cn cn-bright" style="top:36%;left:41%;width:120px;transform:rotate(25deg)"></div>
+
+      <!-- Connection lines (mid) -->
+      <div class="cn cn-mid" style="top:50%;left:6%;width:140px;transform:rotate(-22deg)"></div>
+      <div class="cn cn-mid" style="top:11%;left:21%;width:170px;transform:rotate(12deg)"></div>
+      <div class="cn cn-mid" style="top:43%;left:29%;width:120px;transform:rotate(-6deg)"></div>
+      <div class="cn cn-mid" style="top:66%;left:23%;width:110px;transform:rotate(30deg)"></div>
+      <div class="cn cn-mid" style="top:71%;left:37%;width:100px;transform:rotate(8deg)"></div>
+      <div class="cn cn-mid" style="top:82%;left:46%;width:70px;transform:rotate(-35deg)"></div>
+      <div class="cn cn-mid" style="top:16%;left:33%;width:90px;transform:rotate(18deg)"></div>
+
+      <!-- Connection lines (dim) -->
+      <div class="cn cn-dim" style="top:86%;left:13%;width:200px;transform:rotate(-8deg)"></div>
+      <div class="cn cn-dim" style="top:31%;left:16%;width:100px;transform:rotate(15deg)"></div>
+      <div class="cn cn-dim" style="top:75%;left:31%;width:60px;transform:rotate(40deg)"></div>
+      <div class="cn cn-dim" style="top:56%;left:51%;width:80px;transform:rotate(-20deg)"></div>
+
+      <!-- Colored accent lines -->
+      <div class="cn cn-warm" style="top:16%;left:33%;width:75px;transform:rotate(-20deg);height:1.5px"></div>
+      <div class="cn cn-green" style="top:56%;left:51%;width:45px;transform:rotate(10deg);height:1.5px"></div>
+
+      <!-- Data flow particles -->
+      <div style="position:absolute;top:21%;left:9%;width:160px;transform:rotate(22deg);height:2px;z-index:2;overflow:hidden">
+        <div class="dp dp-blue" style="position:absolute;top:-0.5px;animation:flow-r 3s 0s linear infinite"></div>
+      </div>
+      <div style="position:absolute;top:22%;left:9%;width:280px;transform:rotate(6deg);height:2px;z-index:2;overflow:hidden">
+        <div class="dp dp-blue" style="position:absolute;top:-0.5px;animation:flow-r 4s 1s linear infinite"></div>
+      </div>
+      <div style="position:absolute;top:65%;left:23%;width:180px;transform:rotate(-18deg);height:2px;z-index:2;overflow:hidden">
+        <div class="dp dp-blue" style="position:absolute;top:-0.5px;animation:flow-r 3.5s 0.5s linear infinite"></div>
+      </div>
+      <div style="position:absolute;top:16%;left:33%;width:75px;transform:rotate(-20deg);height:2px;z-index:2;overflow:hidden">
+        <div class="dp dp-orange" style="position:absolute;top:-0.5px;animation:flow-r 2.5s 2s linear infinite"></div>
+      </div>
+      <div style="position:absolute;top:56%;left:51%;width:45px;transform:rotate(10deg);height:2px;z-index:2;overflow:hidden">
+        <div class="dp dp-green" style="position:absolute;top:-0.5px;animation:flow-r 2s 1.5s linear infinite"></div>
+      </div>
+      <div style="position:absolute;top:50%;left:6%;width:140px;transform:rotate(-22deg);height:2px;z-index:2;overflow:hidden">
+        <div class="dp dp-blue" style="position:absolute;top:-0.5px;animation:flow-r 3s 2.5s linear infinite"></div>
+      </div>
+
+      <!-- Stars -->
+      <div class="star" style="top:8%;left:2%;width:1.5px;height:1.5px;background:#fff;animation:tw 3.5s 0s infinite"></div>
+      <div class="star" style="top:5%;left:55%;width:2px;height:2px;background:rgba(140,180,255,0.9);animation:tw 5s 0.7s infinite"></div>
+      <div class="star" style="top:92%;left:58%;width:1px;height:1px;background:#fff;animation:tw2 4s 2s infinite"></div>
+      <div class="star" style="top:15%;left:62%;width:1.5px;height:1.5px;background:#fff;animation:tw 4.5s 1s infinite"></div>
+      <div class="star" style="top:88%;left:3%;width:1px;height:1px;background:#fff;animation:tw2 5s 3s infinite"></div>
+      <div class="star" style="top:38%;left:58%;width:1.5px;height:1.5px;background:rgba(255,200,140,0.7);animation:tw 5.5s 2.5s infinite"></div>
+
+      <!-- ===== EARTH ===== -->
+      <div class="earth-wrap">
+        <div class="atm" style="animation:ag 6s ease-in-out infinite"></div>
+        <div class="limb"></div>
         <div class="earth">
-          <div class="earth-land1"></div>
-          <div class="earth-land2"></div>
-          <div class="earth-land3"></div>
-          <div class="earth-cloud1"></div>
-          <div class="earth-cloud2"></div>
+          <div class="land l1"></div>
+          <div class="land l2"></div>
+          <div class="land l3"></div>
+          <div class="land l4"></div>
+          <div class="land l5"></div>
+          <div class="city c1"></div>
+          <div class="city c2"></div>
+          <div class="city c3"></div>
+          <div class="city c4"></div>
+          <div class="city c5"></div>
+          <div class="city c6"></div>
+          <div class="city c7"></div>
+          <div class="city c8"></div>
+          <div class="cld cl1"></div>
+          <div class="cld cl2"></div>
+          <div class="cld cl3"></div>
+          <div class="cld cl4"></div>
+          <div class="terminator"></div>
         </div>
       </div>
 
-      <!-- Satellite orbits -->
-      <div class="orbit-path orb-1">
-        <div class="sat1"></div>
-      </div>
-      <div class="orbit-path orbit-path-dash orb-2">
-        <div class="sat2"></div>
-      </div>
-      <div class="orbit-path orb-3">
-        <div class="sat3"></div>
-      </div>
+      <!-- ===== SATELLITE ORBITS ===== -->
+      <div class="orb orb-solid o1"><div class="sat st1"></div></div>
+      <div class="orb orb-dash o2"><div class="sat st2"></div></div>
+      <div class="orb orb-dot o3"><div class="sat st3"></div></div>
 
-      <!-- Text -->
+      <!-- ===== TEXT ===== -->
       <div class="info">
         <div class="nm">Kanugu Manoj Kumar</div>
         <div class="sub">Geospatial Systems <span class="acc">&#183;</span> Data Engineering <span class="acc">&#183;</span> ML Pipelines</div>
         <div class="tags">
           <span class="tag">Published Researcher</span>
-          <span class="tag-g tag">B.Tech IT</span>
+          <span class="tag tag-g">B.Tech IT</span>
           <span class="tag">CGPA 8.21</span>
         </div>
       </div>
