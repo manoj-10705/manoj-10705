@@ -227,28 +227,6 @@ Satellite-based flood detection system using multi-spectral NDWI analysis on opt
 
 ---
 
-## GitHub Analytics
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api?username=manoj-10705&show_icons=true&include_all_commits=true&count_private=true&hide_border=true&bg_color=0d1117&title_color=58a6ff&icon_color=1f6feb&text_color=c9d1d9&ring_color=1f6feb" />
-    <img src="https://github-readme-stats.vercel.app/api?username=manoj-10705&show_icons=true&include_all_commits=true&count_private=true&hide_border=true" width="48%" alt="GitHub Stats"/>
-  </picture>
-  &nbsp;
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://streak-stats.demolab.com?user=manoj-10705&hide_border=true&background=0d1117&ring=1f6feb&fire=58a6ff&currStreakLabel=58a6ff&sideLabels=8b949e&sideNums=c9d1d9&currStreakNum=c9d1d9&dates=6e7681" />
-    <img src="https://streak-stats.demolab.com?user=manoj-10705&hide_border=true" width="48%" alt="GitHub Streak"/>
-  </picture>
-</p>
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=manoj-10705&layout=compact&hide_border=true&bg_color=0d1117&title_color=58a6ff&text_color=c9d1d9&langs_count=10" />
-    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=manoj-10705&layout=compact&hide_border=true&langs_count=10" width="40%" alt="Top Languages"/>
-  </picture>
-</p>
-
----
 
 ## Publication
 
